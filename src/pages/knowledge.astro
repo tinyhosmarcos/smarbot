@@ -1,0 +1,71 @@
+---
+import "../styles/global.css";
+---
+
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gestión de Conocimiento - SmartClic</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+    </head>
+
+    <body>
+        <div class="kb-container">
+            <header class="kb-header">
+                <a href="/" class="back-btn">← Volver al Chat</a>
+                <h1 class="kb-title">Base de Conocimiento</h1>
+            </header>
+
+            <div class="add-section">
+                <div class="add-header" id="toggle-add-form">
+                    <h2>Agregar Nuevo Punto</h2>
+                    <span>▼</span>
+                </div>
+                <div id="add-form-container" style="display: none;">
+                    <div class="form-group">
+                        <input type="hidden" id="point-id" />
+                        <label for="new-content">Contenido</label>
+                        <textarea
+                            id="new-content"
+                            placeholder="Escribe el contenido aquí..."
+                        ></textarea>
+                    </div>
+                    <button id="btn-add" class="btn-primary"
+                        >Agregar Punto</button
+                    >
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="table-scroll">
+                    <table id="points-table">
+                        <thead>
+                            <tr>
+                                <th style="width: 80px;">ID</th>
+                                <th>Contenido</th>
+                                <th style="width: 150px;">Colección</th>
+                                <th style="width: 100px;">Estado</th>
+                                <th style="width: 150px;">Fecha</th>
+                                <th style="width: 120px;">Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="points-list">
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="loading" class="loading-overlay">
+            <div style="font-size: 1.2rem; font-weight: 600;">Cargando...</div>
+        </div>
+
+        <script src="../scripts/knowledge.js"></script>
+    </body>
+</html>

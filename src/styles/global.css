@@ -1,0 +1,722 @@
+:root {
+    --primary-color: #000000;
+    --primary-light: #333333;
+    --bg-color: #ffffff;
+    --sidebar-bg: #ffffff;
+    --text-primary: #000000;
+    --text-secondary: #666666;
+    --border-color: #000000;
+    --message-user-bg: #f0f0f0;
+    --message-user-text: #000000;
+    --message-bot-bg: #ffffff;
+    --message-bot-text: #000000;
+    --shadow-sm: none;
+    --shadow-md: none;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    height: 100vh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    height: 100vh;
+    border: 1px solid var(--border-color);
+}
+
+/* Sidebar Styles */
+.sidebar {
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+}
+
+.companies-sidebar {
+    width: 300px;
+}
+
+.conversations-sidebar {
+    width: 250px;
+}
+
+.sidebar-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.sidebar-header h2 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.date-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.input-group label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+input[type="date"] {
+    padding: 8px;
+    border: 1px solid var(--border-color);
+    border-radius: 0;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+input[type="date"]:focus {
+    background-color: #fafafa;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    border: 1px solid var(--primary-color);
+    padding: 10px;
+    border-radius: 0;
+    font-weight: 600;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+}
+
+.btn-primary:hover {
+    background-color: white;
+    color: black;
+}
+
+.list-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 0;
+}
+
+.company-item,
+.conversation-item {
+    padding: 15px 20px;
+    border-bottom: 1px solid var(--border-color);
+    cursor: pointer;
+}
+
+.company-item:hover,
+.conversation-item:hover {
+    background-color: #f5f5f5;
+}
+
+.company-item.active,
+.conversation-item.active {
+    background-color: #000000;
+    color: white;
+}
+
+.company-item.active .company-ruc,
+.conversation-item.active .conv-date,
+.conversation-item.active .conv-status {
+    color: #cccccc;
+}
+
+.company-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.company-ruc {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Conversations specific */
+.conv-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 4px;
+}
+
+.conv-id {
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.conv-status {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: 1px solid currentColor;
+    padding: 1px 4px;
+}
+
+.conv-date {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+/* Chat Area Styles */
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg-color);
+}
+
+.chat-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 80px;
+}
+
+.chat-header.hidden {
+    visibility: hidden;
+    /* Keep layout */
+}
+
+.chat-header h2 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.ruc-badge {
+    border: 1px solid var(--border-color);
+    padding: 4px 8px;
+    font-size: 0.8rem;
+    margin-top: 4px;
+    display: inline-block;
+}
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Message Bubbles */
+.message {
+    max-width: 70%;
+    padding: 15px;
+    border: 1px solid var(--border-color);
+    position: relative;
+    line-height: 1.5;
+    font-size: 0.95rem;
+}
+
+.message.user {
+    align-self: flex-end;
+    background-color: var(--message-user-bg);
+    text-align: right;
+}
+
+.message.assistant {
+    align-self: flex-start;
+    background-color: var(--message-bot-bg);
+}
+
+.message-content {
+    margin-bottom: 8px;
+}
+
+.message-meta {
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* Empty State */
+.empty-state,
+.empty-list,
+.loading,
+.error {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    padding: 20px;
+    text-align: center;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.loading {
+    font-style: italic;
+}
+
+.error {
+    color: red;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #000000;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #333333;
+}
+
+/* Knowledge Base Styles */
+.kb-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.kb-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.kb-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: #1a1a1a;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #666;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+}
+
+.back-btn:hover {
+    color: #333;
+}
+
+/* Add Form Section */
+.add-section {
+    background: white;
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    border: 1px solid #eee;
+}
+
+.add-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    cursor: pointer;
+}
+
+.add-header h2 {
+    font-size: 1.2rem;
+    margin: 0;
+}
+
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    resize: vertical;
+    min-height: 120px;
+}
+
+/* Table Section */
+.table-container {
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 300px);
+    border: 1px solid #eee;
+}
+
+.table-scroll {
+    overflow-y: auto;
+    flex: 1;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+}
+
+th,
+td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+}
+
+th {
+    background: #f9fafb;
+    font-weight: 600;
+    color: #555;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+tr:hover {
+    background: #f8fafc;
+}
+
+.content-cell {
+    max-width: 400px;
+}
+
+.content-text {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 400px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.content-text.expanded {
+    white-space: pre-wrap;
+    overflow: visible;
+}
+
+.collection-badge {
+    background: #e0e7ff;
+    color: #3730a3;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    display: inline-block;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.9rem;
+}
+
+.status-active {
+    color: #16a34a;
+}
+
+.status-inactive {
+    color: #dc2626;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    margin-bottom: 2rem;
+    font-size: 1rem;
+}
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255, 255, 255, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    display: none;
+}
+
+.btn-action {
+    padding: 0.4rem 0.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    margin-right: 0.5rem;
+    color: white;
+    transition: background 0.2s;
+}
+
+.btn-edit {
+    background-color: #f59e0b;
+}
+
+.btn-edit:hover {
+    background-color: #d97706;
+}
+
+.btn-delete {
+    background-color: #ef4444;
+}
+
+.btn-delete:hover {
+    background-color: #dc2626;
+}
+
+/* ---------- Qdrant Modal ---------- */
+.qdrant-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, .5);
+    display: none;
+    /* shown via JS */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.qdrant-modal-content {
+    background: #fff;
+    width: 90vw;
+    height: 90vh;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.qdrant-modal-header {
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-btn {
+    padding: .5rem 1rem;
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.modal-header-btn:hover {
+    background: #1d4ed8;
+}
+
+.qdrant-modal-body {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.qdrant-sidebar {
+    width: 250px;
+    border-right: 1px solid #eee;
+    overflow-y: auto;
+    background: #f9f9f9;
+    padding: 1rem;
+}
+
+.qdrant-sidebar-item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #ddd;
+    transition: background .2s;
+}
+
+.qdrant-sidebar-item.active,
+.qdrant-sidebar-item:hover {
+    background: #e0e0e0;
+}
+
+.qdrant-sidebar-item.error-item {
+    color: #ff4444;
+}
+
+.qdrant-detail {
+    flex: 1;
+    overflow-y: auto;
+    padding: 2rem;
+}
+
+.point-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #333;
+    padding-bottom: .5rem;
+}
+
+.point-actions button {
+    margin-left: 10px;
+    padding: .4rem .8rem;
+    border: none;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.edit-btn {
+    background: #f59e0b;
+}
+
+.edit-btn:hover {
+    background: #d97706;
+}
+
+.delete-btn {
+    background: #ef4444;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.point-display {
+    background: #f4f4f4;
+    padding: 1.5rem;
+    border-radius: 8px;
+}
+
+.point-edit {
+    margin-top: 1rem;
+}
+
+.edit-textarea {
+    width: 100%;
+    height: 200px;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.edit-actions button {
+    margin-right: 10px;
+    padding: .5rem 1rem;
+    cursor: pointer;
+}
+
+.save-btn {
+    background: #4caf50;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.cancel-btn {
+    background: #aaa;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+}
+
+.point-meta {
+    margin-top: 2rem;
+}
+
+.meta-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 8px;
+    background: #fff;
+    border: 1px solid #eee;
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.meta-key {
+    font-weight: 600;
+    color: #666;
+}
+
+.meta-value {
+    word-break: break-all;
+}
+
+.raw-json {
+    margin-top: 2rem;
+}
+
+.raw-json summary {
+    cursor: pointer;
+    color: #666;
+}
+
+.raw-json pre {
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 4px;
+    overflow: auto;
+}
+
+/* ---------- Knowledge Table Helpers ---------- */
+.date-cell {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.empty-message {
+    text-align: center;
+    color: #666;
+    padding: 2rem;
+}
+
+.error-message {
+    text-align: center;
+    color: red;
+    padding: 2rem;
+}
